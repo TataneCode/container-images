@@ -1,0 +1,28 @@
+FROM almalinux:9
+
+ARG SSH_USER=dev
+ARG SSH_PASSWORD=changeme
+
+RUN dnf install -y openssh-server curl gcc gcc-c++ make tar procps-ng && \
+    dnf clean all
+
+RUN ssh-keygen -A
+
+RUN useradd -m -s /bin/bash ${SSH_USER} && \
+    echo "${SSH_USER}:${SSH_PASSWORD}" | chpasswd && \
+    mkdir -p /home/${SSH_USER}/.ssh && \
+    chmod 700 /home/${SSH_USER}/.ssh && \
+    chown -R ${SSH_USER}:${SSH_USER} /home/${SSH_USER}/.ssh
+
+# Rustup + toolchain stable
+RUN su - ${SSH_USER} -c "curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --default-toolchain stable --profile default"
+
+ENV PATH="/home/${SSH_USER}/.cargo/bin:${PATH}"
+
+RUN su - ${SSH_USER} -c "/home/${SSH_USER}/.cargo/bin/rustup component add rustfmt clippy"
+
+COPY alma-rust/entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+
+EXPOSE 22
+ENTRYPOINT ["/entrypoint.sh"]
