@@ -5,7 +5,7 @@ ARG SSH_PASSWORD=changeme
 ARG DOTNET_VERSION=10.0
 ARG NODE_MAJOR=24
 
-RUN dnf install -y openssh-server curl tar gzip procps-ng && \
+RUN dnf install -y --allowerasing openssh-server curl tar gzip procps-ng && \
     dnf clean all
 
 RUN ssh-keygen -A

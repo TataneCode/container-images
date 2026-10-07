@@ -3,7 +3,7 @@ FROM almalinux:9
 ARG SSH_USER=dev
 ARG SSH_PASSWORD=changeme
 
-RUN dnf install -y openssh-server curl gcc gcc-c++ make tar procps-ng && \
+RUN dnf install -y --allowerasing openssh-server curl gcc gcc-c++ make tar procps-ng && \
     dnf clean all
 
 RUN ssh-keygen -A
