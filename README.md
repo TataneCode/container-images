@@ -4,8 +4,8 @@ Images conteneurs AlmaLinux 9 pré-construites (x86_64), publiées automatiqueme
 
 | Image | Contenu |
 |---|---|
-| `ghcr.io/tatanecode/alma-rust` | AlmaLinux 9, OpenSSH, Rustup/Cargo (stable) + rustfmt + clippy |
-| `ghcr.io/tatanecode/alma-dotnet-node` | AlmaLinux 9, OpenSSH, .NET SDK 10, Node.js 24 LTS |
+| `ghcr.io/tatanecode/alma-rust` | AlmaLinux 9, OpenSSH, Rustup/Cargo (stable) + rustfmt + clippy, Neovim, Yazi |
+| `ghcr.io/tatanecode/alma-dotnet-node` | AlmaLinux 9, OpenSSH, .NET SDK 10, Node.js 24 LTS, Neovim, Yazi |
 
 ## Récupérer les images
 
@@ -14,6 +14,23 @@ Images conteneurs AlmaLinux 9 pré-construites (x86_64), publiées automatiqueme
     podman pull ghcr.io/tatanecode/alma-dotnet-node:latest
 
 (fonctionne aussi avec `docker`)
+
+### Téléchargement direct (tar)
+
+À chaque build, les images sont aussi exportées en archives `.tar` téléchargeables
+depuis la page **Actions** du dépôt (artefacts `alma-rust-image` et
+`alma-dotnet-node-image`, conservés 14 jours) :
+
+1. Ouvrir l'onglet **Actions** et sélectionner le dernier run successful
+2. En bas de page, télécharger l'artefact souhaité
+
+Puis charger l'image localement :
+
+    podman load -i alma-rust.tar
+    # ou
+    docker load -i alma-rust.tar
+
+Utile pour les environnements sans accès au registre (réseau isolé, air-gapped).
 
 ## Lancer
 
@@ -25,7 +42,33 @@ Images conteneurs AlmaLinux 9 pré-construites (x86_64), publiées automatiqueme
     podman build -t alma-rust -f alma-rust/Containerfile .
     podman build -t alma-dotnet-node -f alma-dotnet-node/Containerfile .
 
-Personnalisation au build : `--build-arg SSH_USER=... --build-arg SSH_PASSWORD=...` (+ `DOTNET_VERSION`, `NODE_MAJOR` pour l'image dotnet/node).
+Personnalisation au build : `--build-arg SSH_USER=... --build-arg SSH_PASSWORD=...` (+ `DOTNET_VERSION`, `NODE_MAJOR` pour l'image dotnet/node, `YAZI_VERSION` pour les deux images).
+
+## Outils inclus
+
+### Yazi (file manager console)
+
+`yazi` est un gestionnaire de fichiers en terminal, rapide et configurable.
+Binaire officiel installé dans `/usr/local/bin` (version `v26.9.1`), accompagné
+de `ya` (assistant pour plugins, actions shell et paquets).
+
+Utilisation basique :
+
+    yazi              # ouvrir dans le répertoire courant
+
+Navigation : flèches (ou `hjkl`), `Enter` pour ouvrir, `q` pour quitter,
+`:` pour la ligne de commande, `?` pour l'aide.
+
+Configuration dans `~/.config/yazi/yazi.toml`. Documentation complète :
+https://yazi-rs.github.io
+
+### Neovim
+
+`nvim` est installé depuis les dépôts AlmaLinux/EPEL.
+
+    nvim fichier.txt    # éditer un fichier
+
+Configuration dans `~/.config/nvim/`. Documentation : https://neovim.io
 
 ## Sécurité
 
