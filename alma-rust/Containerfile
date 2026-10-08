@@ -3,8 +3,17 @@ FROM almalinux:9
 ARG SSH_USER=dev
 ARG SSH_PASSWORD=changeme
 
-RUN dnf install -y --allowerasing openssh-server curl gcc gcc-c++ make tar procps-ng && \
+RUN dnf install -y --allowerasing openssh-server curl gcc gcc-c++ make tar unzip procps-ng epel-release && \
+    dnf install -y neovim && \
     dnf clean all
+
+# Yazi (file manager console)
+ARG YAZI_VERSION=v26.9.1
+RUN curl -sSL https://github.com/sxyazi/yazi/releases/download/${YAZI_VERSION}/yazi-x86_64-unknown-linux-musl.zip -o /tmp/yazi.zip && \
+    unzip -q /tmp/yazi.zip -d /tmp/yazi && \
+    install -m 755 /tmp/yazi/yazi-x86_64-unknown-linux-musl/yazi /usr/local/bin/yazi && \
+    install -m 755 /tmp/yazi/yazi-x86_64-unknown-linux-musl/ya /usr/local/bin/ya && \
+    rm -rf /tmp/yazi /tmp/yazi.zip
 
 RUN ssh-keygen -A
 

@@ -4,8 +4,8 @@ Images conteneurs AlmaLinux 9 pré-construites (x86_64), publiées automatiqueme
 
 | Image | Contenu |
 |---|---|
-| `ghcr.io/tatanecode/alma-rust` | AlmaLinux 9, OpenSSH, Rustup/Cargo (stable) + rustfmt + clippy |
-| `ghcr.io/tatanecode/alma-dotnet-node` | AlmaLinux 9, OpenSSH, .NET SDK 10, Node.js 24 LTS |
+| `ghcr.io/tatanecode/alma-rust` | AlmaLinux 9, OpenSSH, Rustup/Cargo (stable) + rustfmt + clippy, Neovim, Yazi |
+| `ghcr.io/tatanecode/alma-dotnet-node` | AlmaLinux 9, OpenSSH, .NET SDK 10, Node.js 24 LTS, Neovim, Yazi |
 
 ## Récupérer les images
 
@@ -25,7 +25,7 @@ Images conteneurs AlmaLinux 9 pré-construites (x86_64), publiées automatiqueme
     podman build -t alma-rust -f alma-rust/Containerfile .
     podman build -t alma-dotnet-node -f alma-dotnet-node/Containerfile .
 
-Personnalisation au build : `--build-arg SSH_USER=... --build-arg SSH_PASSWORD=...` (+ `DOTNET_VERSION`, `NODE_MAJOR` pour l'image dotnet/node).
+Personnalisation au build : `--build-arg SSH_USER=... --build-arg SSH_PASSWORD=...` (+ `DOTNET_VERSION`, `NODE_MAJOR` pour l'image dotnet/node, `YAZI_VERSION` pour les deux images).
 
 ## Sécurité
 
