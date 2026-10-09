@@ -44,6 +44,26 @@ Utile pour les environnements sans accès au registre (réseau isolé, air-gappe
 
 Personnalisation au build : `--build-arg SSH_USER=... --build-arg SSH_PASSWORD=...` (+ `DOTNET_VERSION`, `NODE_MAJOR` pour l'image dotnet/node, `YAZI_VERSION` pour les deux images).
 
+## Utiliser `su` dans le conteneur
+
+L'utilisateur `dev` (ou `SSH_USER`) est créé avec `/bin/bash` comme shell.
+Pour exécuter une commande en tant que cet utilisateur depuis une session root (par exemple avec `podman exec`) :
+
+    podman exec -it alma-dotnet-node su - dev -c "dotnet --version"
+
+Pour ouvrir un shell interactif :
+
+    podman exec -it alma-dotnet-node su - dev
+
+Le `-` (login shell) charge le profil de l'utilisateur (`~/.bash_profile`).
+En SSH, la session utilise déjà directement l'utilisateur configuré.
+
+## Shell par défaut : bash
+
+Les images utilisent `/bin/bash` comme shell (utilisateur `dev` inclus).
+Sous AlmaLinux/RHEL, `/bin/sh` est déjà un lien symbolique vers `bash`, donc les
+scripts `sh` restent compatibles ; mais pour un shell interactif, préférez `bash`.
+
 ## Outils inclus
 
 ### Yazi (file manager console)

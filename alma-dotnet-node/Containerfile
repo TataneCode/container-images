@@ -5,9 +5,13 @@ ARG SSH_PASSWORD=changeme
 ARG DOTNET_VERSION=10.0
 ARG NODE_MAJOR=24
 
-RUN dnf install -y --allowerasing openssh-server curl tar gzip unzip procps-ng epel-release && \
+RUN dnf install -y --allowerasing openssh-server curl tar gzip unzip procps-ng libicu bash epel-release && \
     dnf install -y neovim && \
     dnf clean all
+
+# Bash comme shell par défaut
+SHELL ["/bin/bash", "-c"]
+ENV SHELL=/bin/bash
 
 # Yazi (file manager console)
 ARG YAZI_VERSION=v26.9.1
