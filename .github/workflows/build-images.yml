@@ -23,6 +23,10 @@ jobs:
             dockerfile: alma-rust/Containerfile
           - image: alma-dotnet-node
             dockerfile: alma-dotnet-node/Containerfile
+          - image: debian-rust
+            dockerfile: debian-rust/Containerfile
+          - image: debian-dotnet-node
+            dockerfile: debian-dotnet-node/Containerfile
     steps:
       - uses: actions/checkout@v5
       - uses: docker/setup-buildx-action@v3
@@ -61,6 +65,10 @@ jobs:
             dockerfile: alma-rust/Containerfile
           - image: alma-dotnet-node
             dockerfile: alma-dotnet-node/Containerfile
+          - image: debian-rust
+            dockerfile: debian-rust/Containerfile
+          - image: debian-dotnet-node
+            dockerfile: debian-dotnet-node/Containerfile
     steps:
       - uses: actions/checkout@v5
       - uses: docker/setup-buildx-action@v3

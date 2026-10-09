@@ -1,17 +1,21 @@
 # container-images
 
-Images conteneurs AlmaLinux 9 pré-construites (x86_64), publiées automatiquement sur ghcr.io par GitHub Actions.
+Images conteneurs AlmaLinux 9 et Debian 12 (Bookworm) pré-construites (x86_64), publiées automatiquement sur ghcr.io par GitHub Actions.
 
 | Image | Contenu |
 |---|---|
 | `ghcr.io/tatanecode/alma-rust` | AlmaLinux 9, OpenSSH, Rustup/Cargo (stable) + rustfmt + clippy, Neovim, Yazi |
 | `ghcr.io/tatanecode/alma-dotnet-node` | AlmaLinux 9, OpenSSH, .NET SDK 10, Node.js 24 LTS, Neovim, Yazi |
+| `ghcr.io/tatanecode/debian-rust` | Debian 12 (Bookworm), OpenSSH, Rustup/Cargo (stable) + rustfmt + clippy, Neovim, Yazi |
+| `ghcr.io/tatanecode/debian-dotnet-node` | Debian 12 (Bookworm), OpenSSH, .NET SDK 10, Node.js 24 LTS, Neovim, Yazi |
 
 ## Récupérer les images
 
     podman login ghcr.io
     podman pull ghcr.io/tatanecode/alma-rust:latest
     podman pull ghcr.io/tatanecode/alma-dotnet-node:latest
+    podman pull ghcr.io/tatanecode/debian-rust:latest
+    podman pull ghcr.io/tatanecode/debian-dotnet-node:latest
 
 (fonctionne aussi avec `docker`)
 
@@ -41,6 +45,8 @@ Utile pour les environnements sans accès au registre (réseau isolé, air-gappe
 
     podman build -t alma-rust -f alma-rust/Containerfile .
     podman build -t alma-dotnet-node -f alma-dotnet-node/Containerfile .
+    podman build -t debian-rust -f debian-rust/Containerfile .
+    podman build -t debian-dotnet-node -f debian-dotnet-node/Containerfile .
 
 Personnalisation au build : `--build-arg SSH_USER=... --build-arg SSH_PASSWORD=...` (+ `DOTNET_VERSION`, `NODE_MAJOR` pour l'image dotnet/node, `YAZI_VERSION` pour les deux images).
 
