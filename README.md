@@ -46,6 +46,28 @@ Utile pour les environnements sans accès au registre (réseau isolé, air-gappe
     podman run -d --name alma-rust -p 2222:22 ghcr.io/tatanecode/alma-rust:latest
     ssh dev@localhost -p 2222    # mot de passe par défaut : changeme
 
+## Lancer toutes les images (compose)
+
+    docker compose pull
+    docker compose up -d
+
+Télécharge (version `latest` à chaque fois) et lance les 6 images, avec redirection des ports SSH :
+
+| Conteneur | Port SSH |
+|---|---|
+| alma-rust | 2222 |
+| alma-dotnet-node | 2223 |
+| alma-cpp | 2224 |
+| debian-rust | 2225 |
+| debian-dotnet-node | 2226 |
+| debian-cpp | 2227 |
+
+    ssh dev@localhost -p 2222   # mot de passe par défaut : changeme
+
+Arrêter tout :
+
+    docker compose down
+
 ## Reconstruire localement
 
     podman build -t alma-rust -f alma-rust/Containerfile .

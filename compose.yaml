@@ -1,0 +1,42 @@
+services:
+  alma-rust:
+    image: ghcr.io/tatanecode/alma-rust:latest
+    pull_policy: always
+    container_name: alma-rust
+    ports:
+      - "2222:22"
+
+  alma-dotnet-node:
+    image: ghcr.io/tatanecode/alma-dotnet-node:latest
+    pull_policy: always
+    container_name: alma-dotnet-node
+    ports:
+      - "2223:22"
+
+  alma-cpp:
+    image: ghcr.io/tatanecode/alma-cpp:latest
+    pull_policy: always
+    container_name: alma-cpp
+    ports:
+      - "2224:22"
+
+  debian-rust:
+    image: ghcr.io/tatanecode/debian-rust:latest
+    pull_policy: always
+    container_name: debian-rust
+    ports:
+      - "2225:22"
+
+  debian-dotnet-node:
+    image: ghcr.io/tatanecode/debian-dotnet-node:latest
+    pull_policy: always
+    container_name: debian-dotnet-node
+    ports:
+      - "2226:22"
+
+  debian-cpp:
+    image: ghcr.io/tatanecode/debian-cpp:latest
+    pull_policy: always
+    container_name: debian-cpp
+    ports:
+      - "2227:22"
