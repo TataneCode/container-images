@@ -3,9 +3,15 @@ FROM almalinux:9
 ARG SSH_USER=dev
 ARG SSH_PASSWORD=changeme
 
+
 RUN dnf install -y --allowerasing openssh-server curl tar unzip procps-ng epel-release && \
-    dnf install -y --enablerepo=crb neovim gcc gcc-c++ make clang clang-tools-extra cmake ninja-build gdb git pkgconf-pkg-config ccache && \
+    dnf install -y --enablerepo=crb neovim gcc gcc-c++ make clang clang-tools-extra cmake ninja-build gdb git pkgconf-pkg-config ccache ripgrep fd-find && \
     dnf clean all
+
+# Neovim officiel en surcouche (LazyVim exige >= 0.9, le paquet distro est trop ancien)
+ARG NVIM_VERSION=v0.12.6
+RUN curl -sSL https://github.com/neovim/neovim/releases/download/${NVIM_VERSION}/nvim-linux-x86_64.tar.gz | tar -xz -C /opt && \
+    ln -sf /opt/nvim-linux-x86_64/bin/nvim /usr/local/bin/nvim
 
 # Yazi (file manager console)
 ARG YAZI_VERSION=v26.9.1
@@ -22,6 +28,11 @@ RUN useradd -m -s /bin/bash ${SSH_USER} && \
     mkdir -p /home/${SSH_USER}/.ssh && \
     chmod 700 /home/${SSH_USER}/.ssh && \
     chown -R ${SSH_USER}:${SSH_USER} /home/${SSH_USER}/.ssh
+
+# LazyVim (surcouche de Neovim) pour ${SSH_USER}
+RUN su - ${SSH_USER} -c "git clone --depth 1 https://github.com/LazyVim/starter ~/.config/nvim && rm -rf ~/.config/nvim/.git" && \
+    chown -R ${SSH_USER}:${SSH_USER} /home/${SSH_USER}/.config
+RUN su - ${SSH_USER} -c "nvim --headless '+Lazy! restore' +qa"
 
 COPY alma-cpp/entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh

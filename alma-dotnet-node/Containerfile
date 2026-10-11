@@ -5,9 +5,15 @@ ARG SSH_PASSWORD=changeme
 ARG DOTNET_VERSION=10.0
 ARG NODE_MAJOR=24
 
+
 RUN dnf install -y --allowerasing openssh-server curl tar gzip unzip procps-ng libicu bash epel-release && \
-    dnf install -y neovim && \
+    dnf install -y neovim git ripgrep fd-find gcc make && \
     dnf clean all
+
+# Neovim officiel en surcouche (LazyVim exige >= 0.9, le paquet distro est trop ancien)
+ARG NVIM_VERSION=v0.12.6
+RUN curl -sSL https://github.com/neovim/neovim/releases/download/${NVIM_VERSION}/nvim-linux-x86_64.tar.gz | tar -xz -C /opt && \
+    ln -sf /opt/nvim-linux-x86_64/bin/nvim /usr/local/bin/nvim
 
 # Bash comme shell par défaut
 SHELL ["/bin/bash", "-c"]
@@ -28,6 +34,11 @@ RUN useradd -m -s /bin/bash ${SSH_USER} && \
     mkdir -p /home/${SSH_USER}/.ssh && \
     chmod 700 /home/${SSH_USER}/.ssh && \
     chown -R ${SSH_USER}:${SSH_USER} /home/${SSH_USER}/.ssh
+
+# LazyVim (surcouche de Neovim) pour ${SSH_USER}
+RUN su - ${SSH_USER} -c "git clone --depth 1 https://github.com/LazyVim/starter ~/.config/nvim && rm -rf ~/.config/nvim/.git" && \
+    chown -R ${SSH_USER}:${SSH_USER} /home/${SSH_USER}/.config
+RUN su - ${SSH_USER} -c "nvim --headless '+Lazy! restore' +qa"
 
 # .NET SDK (installateur officiel)
 RUN curl -sSL https://dot.net/v1/dotnet-install.sh -o /tmp/dotnet-install.sh && \
