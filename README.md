@@ -8,6 +8,8 @@ Images conteneurs AlmaLinux 9 et Debian 12 (Bookworm) pré-construites (x86_64),
 | `ghcr.io/tatanecode/alma-dotnet-node` | AlmaLinux 9, OpenSSH, .NET SDK 10, Node.js 24 LTS, Neovim, Yazi |
 | `ghcr.io/tatanecode/debian-rust` | Debian 12 (Bookworm), OpenSSH, Rustup/Cargo (stable) + rustfmt + clippy, Neovim, Yazi |
 | `ghcr.io/tatanecode/debian-dotnet-node` | Debian 12 (Bookworm), OpenSSH, .NET SDK 10, Node.js 24 LTS, Neovim, Yazi |
+| `ghcr.io/tatanecode/alma-cpp` | AlmaLinux 9, OpenSSH, GCC + Clang + clang-format + clang-tidy, CMake, Ninja, GDB, Git, ccache, Neovim, Yazi |
+| `ghcr.io/tatanecode/debian-cpp` | Debian 12 (Bookworm), OpenSSH, GCC + Clang + clang-format + clang-tidy, CMake, Ninja, GDB, Git, ccache, Neovim, Yazi |
 
 ## Récupérer les images
 
@@ -16,14 +18,17 @@ Images conteneurs AlmaLinux 9 et Debian 12 (Bookworm) pré-construites (x86_64),
     podman pull ghcr.io/tatanecode/alma-dotnet-node:latest
     podman pull ghcr.io/tatanecode/debian-rust:latest
     podman pull ghcr.io/tatanecode/debian-dotnet-node:latest
+    podman pull ghcr.io/tatanecode/alma-cpp:latest
+    podman pull ghcr.io/tatanecode/debian-cpp:latest
 
 (fonctionne aussi avec `docker`)
 
 ### Téléchargement direct (tar)
 
 À chaque build, les images sont aussi exportées en archives `.tar` téléchargeables
-depuis la page **Actions** du dépôt (artefacts `alma-rust-image` et
-`alma-dotnet-node-image`, conservés 14 jours) :
+depuis la page **Actions** du dépôt (artefacts `alma-rust-image`,
+`alma-dotnet-node-image`, `debian-rust-image`, `debian-dotnet-node-image`,
+`alma-cpp-image`, `debian-cpp-image`, conservés 14 jours) :
 
 1. Ouvrir l'onglet **Actions** et sélectionner le dernier run successful
 2. En bas de page, télécharger l'artefact souhaité
@@ -47,6 +52,8 @@ Utile pour les environnements sans accès au registre (réseau isolé, air-gappe
     podman build -t alma-dotnet-node -f alma-dotnet-node/Containerfile .
     podman build -t debian-rust -f debian-rust/Containerfile .
     podman build -t debian-dotnet-node -f debian-dotnet-node/Containerfile .
+    podman build -t alma-cpp -f alma-cpp/Containerfile .
+    podman build -t debian-cpp -f debian-cpp/Containerfile .
 
 Personnalisation au build : `--build-arg SSH_USER=... --build-arg SSH_PASSWORD=...` (+ `DOTNET_VERSION`, `NODE_MAJOR` pour l'image dotnet/node, `YAZI_VERSION` pour les deux images).
 
@@ -71,6 +78,20 @@ Sous AlmaLinux/RHEL, `/bin/sh` est déjà un lien symbolique vers `bash`, donc l
 scripts `sh` restent compatibles ; mais pour un shell interactif, préférez `bash`.
 
 ## Outils inclus
+
+### C++ (images `alma-cpp` et `debian-cpp`)
+
+Chaîne d'outils complète pour développer en C++ :
+
+- `g++` et `clang++` (compilateurs GCC et Clang)
+- `clang-format` et `clang-tidy` (formattage et analyse statique)
+- `cmake` et `ninja` (systèmes de build)
+- `gdb` (débogueur), `git`, `pkg-config`, `ccache`
+
+Exemple :
+
+    g++ -std=c++20 hello.cpp -o hello
+    cmake -B build -G Ninja && cmake --build build
 
 ### Yazi (file manager console)
 
