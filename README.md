@@ -4,12 +4,12 @@ Images conteneurs AlmaLinux 9 et Debian 12 (Bookworm) pré-construites (x86_64),
 
 | Image | Contenu |
 |---|---|
-| `ghcr.io/tatanecode/alma-rust` | AlmaLinux 9, OpenSSH, Rustup/Cargo (stable) + rustfmt + clippy, Neovim, Yazi |
-| `ghcr.io/tatanecode/alma-dotnet-node` | AlmaLinux 9, OpenSSH, .NET SDK 10, Node.js 24 LTS, Neovim, Yazi |
-| `ghcr.io/tatanecode/debian-rust` | Debian 12 (Bookworm), OpenSSH, Rustup/Cargo (stable) + rustfmt + clippy, Neovim, Yazi |
-| `ghcr.io/tatanecode/debian-dotnet-node` | Debian 12 (Bookworm), OpenSSH, .NET SDK 10, Node.js 24 LTS, Neovim, Yazi |
-| `ghcr.io/tatanecode/alma-cpp` | AlmaLinux 9, OpenSSH, GCC + Clang + clang-format + clang-tidy, CMake, Ninja, GDB, Git, ccache, Neovim, Yazi |
-| `ghcr.io/tatanecode/debian-cpp` | Debian 12 (Bookworm), OpenSSH, GCC + Clang + clang-format + clang-tidy, CMake, Ninja, GDB, Git, ccache, Neovim, Yazi |
+| `ghcr.io/tatanecode/alma-rust` | AlmaLinux 9, OpenSSH, Rustup/Cargo (stable) + rustfmt + clippy, Neovim (v0.12 officiel) + LazyVim pré-configuré, Git, ripgrep, fd, Yazi |
+| `ghcr.io/tatanecode/alma-dotnet-node` | AlmaLinux 9, OpenSSH, .NET SDK 10, Node.js 24 LTS, Neovim (v0.12 officiel) + LazyVim pré-configuré, Git, ripgrep, fd, Yazi |
+| `ghcr.io/tatanecode/debian-rust` | Debian 12 (Bookworm), OpenSSH, Rustup/Cargo (stable) + rustfmt + clippy, Neovim (v0.12 officiel) + LazyVim pré-configuré, Git, ripgrep, fd, Yazi |
+| `ghcr.io/tatanecode/debian-dotnet-node` | Debian 12 (Bookworm), OpenSSH, .NET SDK 10, Node.js 24 LTS, Neovim (v0.12 officiel) + LazyVim pré-configuré, Git, ripgrep, fd, Yazi |
+| `ghcr.io/tatanecode/alma-cpp` | AlmaLinux 9, OpenSSH, GCC + Clang + clang-format + clang-tidy, CMake, Ninja, GDB, Git, ccache, Neovim (v0.12 officiel) + LazyVim pré-configuré, Git, ripgrep, fd, Yazi |
+| `ghcr.io/tatanecode/debian-cpp` | Debian 12 (Bookworm), OpenSSH, GCC + Clang + clang-format + clang-tidy, CMake, Ninja, GDB, Git, ccache, Neovim (v0.12 officiel) + LazyVim pré-configuré, Git, ripgrep, fd, Yazi |
 
 ## Récupérer les images
 
@@ -131,13 +131,31 @@ Navigation : flèches (ou `hjkl`), `Enter` pour ouvrir, `q` pour quitter,
 Configuration dans `~/.config/yazi/yazi.toml`. Documentation complète :
 https://yazi-rs.github.io
 
-### Neovim
+### Neovim + LazyVim
 
-`nvim` est installé depuis les dépôts AlmaLinux/EPEL.
+`nvim` est le binaire officiel Neovim (v0.12), installé dans `/usr/local/bin`
+(la version des dépôts AlmaLinux/Debian est trop ancienne pour LazyVim).
 
-    nvim fichier.txt    # éditer un fichier
+LazyVim (surcouche de Neovim basée sur lazy.nvim) est pré-installé pour
+l'utilisateur `dev` avec tous ses plugins déjà restaurés au build : le premier
+lancement est donc immédiatement utilisable, sans téléchargement.
 
-Configuration dans `~/.config/nvim/`. Documentation : https://neovim.io
+    nvim fichier.txt    # éditer un fichier (LazyVim démarre automatiquement)
+
+Quelques raccourcis utiles (`<leader>` est la barre d'espace) :
+
+- `<leader>ff` : chercher des fichiers (telescope)
+- `<leader>sg` : chercher du texte (grep live, via ripgrep)
+- `<leader>e` : explorateur de fichiers (neo-tree)
+- `<leader>gg` : terminal flottant lazygit (si installé)
+
+Configuration dans `~/.config/nvim/` (starter LazyVim) :
+
+- `lua/config/lazy.lua` : bootstrap lazy.nvim
+- `lua/config/options.lua`, `keymaps.lua`, `autocmds.lua` : options, raccourcis, autocmds
+- `lua/plugins/` : ajouter ses plugins ici
+
+Documentation LazyVim : https://lazyvim.org
 
 ## Sécurité
 
