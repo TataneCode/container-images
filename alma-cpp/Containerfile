@@ -4,7 +4,7 @@ ARG SSH_USER=dev
 ARG SSH_PASSWORD=changeme
 
 RUN dnf install -y --allowerasing openssh-server curl tar unzip procps-ng epel-release && \
-    dnf install -y neovim gcc gcc-c++ make clang clang-tools-extra cmake ninja-build gdb git pkgconf-pkg-config ccache && \
+    dnf install -y --enablerepo=crb neovim gcc gcc-c++ make clang clang-tools-extra cmake ninja-build gdb git pkgconf-pkg-config ccache && \
     dnf clean all
 
 # Yazi (file manager console)
