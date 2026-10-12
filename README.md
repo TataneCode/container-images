@@ -6,8 +6,12 @@ Images conteneurs AlmaLinux 9 et Debian 12 (Bookworm) pré-construites (x86_64),
 |---|---|
 | `ghcr.io/tatanecode/alma-rust` | AlmaLinux 9, OpenSSH, Rustup/Cargo (stable) + rustfmt + clippy, Neovim (v0.12 officiel) + LazyVim pré-configuré, Git, ripgrep, fd, Yazi |
 | `ghcr.io/tatanecode/alma-dotnet-node` | AlmaLinux 9, OpenSSH, .NET SDK 10, Node.js 24 LTS, Neovim (v0.12 officiel) + LazyVim pré-configuré, Git, ripgrep, fd, Yazi |
+| `ghcr.io/tatanecode/alma-dotnet` | AlmaLinux 9, OpenSSH, .NET SDK 10 uniquement, Neovim (v0.12 officiel) + LazyVim pré-configuré, Git, ripgrep, fd, Yazi |
+| `ghcr.io/tatanecode/alma-node` | AlmaLinux 9, OpenSSH, Node.js 24 LTS uniquement, Neovim (v0.12 officiel) + LazyVim pré-configuré, Git, ripgrep, fd, Yazi |
 | `ghcr.io/tatanecode/debian-rust` | Debian 12 (Bookworm), OpenSSH, Rustup/Cargo (stable) + rustfmt + clippy, Neovim (v0.12 officiel) + LazyVim pré-configuré, Git, ripgrep, fd, Yazi |
 | `ghcr.io/tatanecode/debian-dotnet-node` | Debian 12 (Bookworm), OpenSSH, .NET SDK 10, Node.js 24 LTS, Neovim (v0.12 officiel) + LazyVim pré-configuré, Git, ripgrep, fd, Yazi |
+| `ghcr.io/tatanecode/debian-dotnet` | Debian 12 (Bookworm), OpenSSH, .NET SDK 10 uniquement, Neovim (v0.12 officiel) + LazyVim pré-configuré, Git, ripgrep, fd, Yazi |
+| `ghcr.io/tatanecode/debian-node` | Debian 12 (Bookworm), OpenSSH, Node.js 24 LTS uniquement, Neovim (v0.12 officiel) + LazyVim pré-configuré, Git, ripgrep, fd, Yazi |
 | `ghcr.io/tatanecode/alma-cpp` | AlmaLinux 9, OpenSSH, GCC + Clang + clang-format + clang-tidy, CMake, Ninja, GDB, Git, ccache, Neovim (v0.12 officiel) + LazyVim pré-configuré, Git, ripgrep, fd, Yazi |
 | `ghcr.io/tatanecode/debian-cpp` | Debian 12 (Bookworm), OpenSSH, GCC + Clang + clang-format + clang-tidy, CMake, Ninja, GDB, Git, ccache, Neovim (v0.12 officiel) + LazyVim pré-configuré, Git, ripgrep, fd, Yazi |
 
@@ -16,8 +20,12 @@ Images conteneurs AlmaLinux 9 et Debian 12 (Bookworm) pré-construites (x86_64),
     podman login ghcr.io
     podman pull ghcr.io/tatanecode/alma-rust:latest
     podman pull ghcr.io/tatanecode/alma-dotnet-node:latest
+    podman pull ghcr.io/tatanecode/alma-dotnet:latest
+    podman pull ghcr.io/tatanecode/alma-node:latest
     podman pull ghcr.io/tatanecode/debian-rust:latest
     podman pull ghcr.io/tatanecode/debian-dotnet-node:latest
+    podman pull ghcr.io/tatanecode/debian-dotnet:latest
+    podman pull ghcr.io/tatanecode/debian-node:latest
     podman pull ghcr.io/tatanecode/alma-cpp:latest
     podman pull ghcr.io/tatanecode/debian-cpp:latest
 
@@ -27,7 +35,9 @@ Images conteneurs AlmaLinux 9 et Debian 12 (Bookworm) pré-construites (x86_64),
 
 À chaque build, les images sont aussi exportées en archives `.tar` téléchargeables
 depuis la page **Actions** du dépôt (artefacts `alma-rust-image`,
-`alma-dotnet-node-image`, `debian-rust-image`, `debian-dotnet-node-image`,
+`alma-dotnet-node-image`, `alma-dotnet-image`, `alma-node-image`,
+`debian-rust-image`, `debian-dotnet-node-image`, `debian-dotnet-image`,
+`debian-node-image`,
 `alma-cpp-image`, `debian-cpp-image`, conservés 14 jours) :
 
 1. Ouvrir l'onglet **Actions** et sélectionner le dernier run successful
@@ -51,15 +61,19 @@ Utile pour les environnements sans accès au registre (réseau isolé, air-gappe
     docker compose pull
     docker compose up -d
 
-Télécharge (version `latest` à chaque fois) et lance les 6 images, avec redirection des ports SSH :
+Télécharge (version `latest` à chaque fois) et lance les 10 images, avec redirection des ports SSH :
 
 | Conteneur | Port SSH |
 |---|---|
 | alma-rust | 2222 |
 | alma-dotnet-node | 2223 |
+| alma-dotnet | 2228 |
+| alma-node | 2229 |
 | alma-cpp | 2224 |
 | debian-rust | 2225 |
 | debian-dotnet-node | 2226 |
+| debian-dotnet | 2230 |
+| debian-node | 2231 |
 | debian-cpp | 2227 |
 
     ssh dev@localhost -p 2222   # mot de passe par défaut : changeme
@@ -72,12 +86,16 @@ Arrêter tout :
 
     podman build -t alma-rust -f alma-rust/Containerfile .
     podman build -t alma-dotnet-node -f alma-dotnet-node/Containerfile .
+    podman build -t alma-dotnet -f alma-dotnet/Containerfile .
+    podman build -t alma-node -f alma-node/Containerfile .
     podman build -t debian-rust -f debian-rust/Containerfile .
     podman build -t debian-dotnet-node -f debian-dotnet-node/Containerfile .
+    podman build -t debian-dotnet -f debian-dotnet/Containerfile .
+    podman build -t debian-node -f debian-node/Containerfile .
     podman build -t alma-cpp -f alma-cpp/Containerfile .
     podman build -t debian-cpp -f debian-cpp/Containerfile .
 
-Personnalisation au build : `--build-arg SSH_USER=... --build-arg SSH_PASSWORD=...` (+ `DOTNET_VERSION`, `NODE_MAJOR` pour l'image dotnet/node, `YAZI_VERSION` pour les deux images).
+Personnalisation au build : `--build-arg SSH_USER=... --build-arg SSH_PASSWORD=...` (+ `DOTNET_VERSION`, `NODE_MAJOR` pour les images dotnet/node, `YAZI_VERSION` pour toutes les images).
 
 ## Utiliser `su` dans le conteneur
 

@@ -23,10 +23,18 @@ jobs:
             dockerfile: alma-rust/Containerfile
           - image: alma-dotnet-node
             dockerfile: alma-dotnet-node/Containerfile
+          - image: alma-dotnet
+            dockerfile: alma-dotnet/Containerfile
+          - image: alma-node
+            dockerfile: alma-node/Containerfile
           - image: debian-rust
             dockerfile: debian-rust/Containerfile
           - image: debian-dotnet-node
             dockerfile: debian-dotnet-node/Containerfile
+          - image: debian-dotnet
+            dockerfile: debian-dotnet/Containerfile
+          - image: debian-node
+            dockerfile: debian-node/Containerfile
           - image: alma-cpp
             dockerfile: alma-cpp/Containerfile
           - image: debian-cpp
@@ -69,10 +77,18 @@ jobs:
             dockerfile: alma-rust/Containerfile
           - image: alma-dotnet-node
             dockerfile: alma-dotnet-node/Containerfile
+          - image: alma-dotnet
+            dockerfile: alma-dotnet/Containerfile
+          - image: alma-node
+            dockerfile: alma-node/Containerfile
           - image: debian-rust
             dockerfile: debian-rust/Containerfile
           - image: debian-dotnet-node
             dockerfile: debian-dotnet-node/Containerfile
+          - image: debian-dotnet
+            dockerfile: debian-dotnet/Containerfile
+          - image: debian-node
+            dockerfile: debian-node/Containerfile
           - image: alma-cpp
             dockerfile: alma-cpp/Containerfile
           - image: debian-cpp
