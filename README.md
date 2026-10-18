@@ -1,6 +1,6 @@
 # container-images
 
-Images conteneurs AlmaLinux 9 et Debian 12 (Bookworm) pré-construites (x86_64), publiées automatiquement sur ghcr.io par GitHub Actions.
+Images conteneurs AlmaLinux 9 et Debian 12 (Bookworm) pré-construites (x86_64), publiées automatiquement sur ghcr.io et Docker Hub par GitHub Actions.
 
 | Image | Contenu |
 |---|---|
