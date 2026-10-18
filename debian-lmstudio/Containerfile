@@ -40,7 +40,8 @@ RUN su - ${SSH_USER} -c "git clone --depth 1 https://github.com/LazyVim/starter 
 RUN su - ${SSH_USER} -c "nvim --headless '+Lazy! restore' +qa"
 
 # LM Studio (llmster headless) + CLI lms pour ${SSH_USER}
-RUN su - ${SSH_USER} -c "curl -fsSL https://lmstudio.ai/install.sh | bash" && \
+# PATH étendu car les shells de login n'incluent pas /usr/sbin (nécessaire pour ldconfig)
+RUN su - ${SSH_USER} -c "export PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:\$PATH; curl -fsSL https://lmstudio.ai/install.sh | bash" && \
     ln -sf /home/${SSH_USER}/.lmstudio/bin/lms /usr/local/bin/lms
 
 # Téléchargement du modèle Qwen 2.5 3B Instruct (GGUF) dans le cache de l'utilisateur
