@@ -64,3 +64,10 @@ services:
     container_name: debian-cpp
     ports:
       - "2227:22"
+  debian-lmstudio:
+    image: ghcr.io/tatanecode/debian-lmstudio:latest
+    pull_policy: always
+    container_name: debian-lmstudio
+    ports:
+      - "2232:22"
+      - "1234:1234"

@@ -14,6 +14,7 @@ Images conteneurs AlmaLinux 9 et Debian 12 (Bookworm) pré-construites (x86_64),
 | `ghcr.io/tatanecode/debian-node` | Debian 12 (Bookworm), OpenSSH, Node.js 24 LTS uniquement, Neovim (v0.12 officiel) + LazyVim pré-configuré, Git, ripgrep, fd, Yazi |
 | `ghcr.io/tatanecode/alma-cpp` | AlmaLinux 9, OpenSSH, GCC + Clang + clang-format + clang-tidy, CMake, Ninja, GDB, Git, ccache, Neovim (v0.12 officiel) + LazyVim pré-configuré, Git, ripgrep, fd, Yazi |
 | `ghcr.io/tatanecode/debian-cpp` | Debian 12 (Bookworm), OpenSSH, GCC + Clang + clang-format + clang-tidy, CMake, Ninja, GDB, Git, ccache, Neovim (v0.12 officiel) + LazyVim pré-configuré, Git, ripgrep, fd, Yazi |
+| `ghcr.io/tatanecode/debian-lmstudio` | Debian 12 (Bookworm), OpenSSH, LM Studio (llmster headless) + CLI `lms`, modèle Qwen 2.5 3B Instruct (GGUF) pré-téléchargé et chargé au démarrage, serveur API OpenAI-compatible sur le port 1234, Neovim (v0.12 officiel) + LazyVim pré-configuré, Git, ripgrep, fd, Yazi |
 
 ## Récupérer les images
 
@@ -28,6 +29,7 @@ Images conteneurs AlmaLinux 9 et Debian 12 (Bookworm) pré-construites (x86_64),
     podman pull ghcr.io/tatanecode/debian-node:latest
     podman pull ghcr.io/tatanecode/alma-cpp:latest
     podman pull ghcr.io/tatanecode/debian-cpp:latest
+    podman pull ghcr.io/tatanecode/debian-lmstudio:latest
 
 (fonctionne aussi avec `docker`)
 
@@ -38,7 +40,7 @@ depuis la page **Actions** du dépôt (artefacts `alma-rust-image`,
 `alma-dotnet-node-image`, `alma-dotnet-image`, `alma-node-image`,
 `debian-rust-image`, `debian-dotnet-node-image`, `debian-dotnet-image`,
 `debian-node-image`,
-`alma-cpp-image`, `debian-cpp-image`, conservés 14 jours) :
+`alma-cpp-image`, `debian-cpp-image`, `debian-lmstudio-image`, conservés 14 jours) :
 
 1. Ouvrir l'onglet **Actions** et sélectionner le dernier run successful
 2. En bas de page, télécharger l'artefact souhaité
