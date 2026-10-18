@@ -14,7 +14,7 @@ Images conteneurs AlmaLinux 9 et Debian 12 (Bookworm) pré-construites (x86_64),
 | `ghcr.io/tatanecode/debian-node` | Debian 12 (Bookworm), OpenSSH, Node.js 24 LTS uniquement, Neovim (v0.12 officiel) + LazyVim pré-configuré, Git, ripgrep, fd, Yazi |
 | `ghcr.io/tatanecode/alma-cpp` | AlmaLinux 9, OpenSSH, GCC + Clang + clang-format + clang-tidy, CMake, Ninja, GDB, Git, ccache, Neovim (v0.12 officiel) + LazyVim pré-configuré, Git, ripgrep, fd, Yazi |
 | `ghcr.io/tatanecode/debian-cpp` | Debian 12 (Bookworm), OpenSSH, GCC + Clang + clang-format + clang-tidy, CMake, Ninja, GDB, Git, ccache, Neovim (v0.12 officiel) + LazyVim pré-configuré, Git, ripgrep, fd, Yazi |
-| `ghcr.io/tatanecode/debian-lmstudio` | Debian 12 (Bookworm), OpenSSH, LM Studio (llmster headless) + CLI `lms`, modèle Qwen 2.5 3B Instruct (GGUF) pré-téléchargé et chargé au démarrage, serveur API OpenAI-compatible sur le port 1234, Neovim (v0.12 officiel) + LazyVim pré-configuré, Git, ripgrep, fd, Yazi |
+| `ghcr.io/tatanecode/debian-lmstudio` | LM Studio (surcouche de l'image `linuxserver/lm-studio`), modèle Qwen 2.5 3B Instruct (GGUF Q4_K_M) pré-téléchargé, interface web sur le port 3001 (HTTPS) et 3000 (HTTP), serveur API OpenAI-compatible sur le port 1234 via `lms server start` |
 
 ## Récupérer les images
 

@@ -68,6 +68,13 @@ services:
     image: ghcr.io/tatanecode/debian-lmstudio:latest
     pull_policy: always
     container_name: debian-lmstudio
+    shm_size: "1gb"
     ports:
-      - "2232:22"
+      - "3000:3000"
+      - "3001:3001"
       - "1234:1234"
+    volumes:
+      - lmstudio-config:/config
+
+volumes:
+  lmstudio-config:
