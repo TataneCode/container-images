@@ -76,5 +76,19 @@ services:
     volumes:
       - lmstudio-config:/config
 
+  debian-qwen25-coder:
+    image: ghcr.io/tatanecode/debian-qwen25-coder:latest
+    pull_policy: always
+    container_name: debian-qwen25-coder
+    ports:
+      - "11434:11434"
+
+  debian-qwen3-coder:
+    image: ghcr.io/tatanecode/debian-qwen3-coder:latest
+    pull_policy: always
+    container_name: debian-qwen3-coder
+    ports:
+      - "11435:11434"
+
 volumes:
   lmstudio-config:

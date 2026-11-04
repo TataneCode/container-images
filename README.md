@@ -15,8 +15,12 @@ Images conteneurs AlmaLinux 9 et Debian 12 (Bookworm) pré-construites (x86_64),
 | `ghcr.io/tatanecode/alma-cpp` | AlmaLinux 9, OpenSSH, GCC + Clang + clang-format + clang-tidy, CMake, Ninja, GDB, Git, ccache, Neovim (v0.12 officiel) + LazyVim pré-configuré, Git, ripgrep, fd, Yazi |
 | `ghcr.io/tatanecode/debian-cpp` | Debian 12 (Bookworm), OpenSSH, GCC + Clang + clang-format + clang-tidy, CMake, Ninja, GDB, Git, ccache, Neovim (v0.12 officiel) + LazyVim pré-configuré, Git, ripgrep, fd, Yazi |
 | `ghcr.io/tatanecode/debian-lmstudio` | LM Studio (surcouche de l'image `linuxserver/lm-studio`), modèle Qwen 2.5 3B Instruct (GGUF Q4_K_M) pré-téléchargé, interface web sur le port 3001 (HTTPS) et 3000 (HTTP), serveur API OpenAI-compatible sur le port 1234 via `lms server start` |
+| `ghcr.io/tatanecode/debian-qwen25-coder` | Ollama (image officielle), modèle Qwen 2.5 Coder 7B pré-chargé, API OpenAI-compatible sur le port 11434 |
+| `ghcr.io/tatanecode/debian-qwen3-coder` | Ollama (image officielle), modèle Qwen3 Coder 30B (MoE) pré-chargé, API OpenAI-compatible sur le port 11434 |
 
 Documentation détaillée pour l'utilisation de Qwen 2.5 3B (API, CLI, exemples de code) : [`debian-lmstudio/README.md`](debian-lmstudio/README.md).
+
+Documentation détaillée pour Ollama + Qwen Coder (API, exemples, configuration opencode) : [`debian-qwen25-coder/README.md`](debian-qwen25-coder/README.md) et [`debian-qwen3-coder/README.md`](debian-qwen3-coder/README.md).
 
 ## Récupérer les images
 
@@ -32,6 +36,8 @@ Documentation détaillée pour l'utilisation de Qwen 2.5 3B (API, CLI, exemples 
     podman pull ghcr.io/tatanecode/alma-cpp:latest
     podman pull ghcr.io/tatanecode/debian-cpp:latest
     podman pull ghcr.io/tatanecode/debian-lmstudio:latest
+    podman pull ghcr.io/tatanecode/debian-qwen25-coder:latest
+    podman pull ghcr.io/tatanecode/debian-qwen3-coder:latest
 
 (fonctionne aussi avec `docker`)
 
@@ -42,7 +48,8 @@ depuis la page **Actions** du dépôt (artefacts `alma-rust-image`,
 `alma-dotnet-node-image`, `alma-dotnet-image`, `alma-node-image`,
 `debian-rust-image`, `debian-dotnet-node-image`, `debian-dotnet-image`,
 `debian-node-image`,
-`alma-cpp-image`, `debian-cpp-image`, `debian-lmstudio-image`, conservés 14 jours) :
+`alma-cpp-image`, `debian-cpp-image`, `debian-lmstudio-image`, `debian-qwen25-coder-image`,
+`debian-qwen3-coder-image`, conservés 14 jours) :
 
 1. Ouvrir l'onglet **Actions** et sélectionner le dernier run successful
 2. En bas de page, télécharger l'artefact souhaité
