@@ -90,5 +90,12 @@ services:
     ports:
       - "11435:11434"
 
+  debian-gemma2-abliterated:
+    image: ghcr.io/tatanecode/debian-gemma2-abliterated:latest
+    pull_policy: always
+    container_name: debian-gemma2-abliterated
+    ports:
+      - "11436:11434"
+
 volumes:
   lmstudio-config:

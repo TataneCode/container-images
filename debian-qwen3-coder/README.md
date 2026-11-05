@@ -45,15 +45,15 @@ puis `wsl --shutdown` et relancer Docker Desktop.
 ## Lancer le conteneur
 
 ```bash
-podman pull ghcr.io/tatanecode/debian-qwen3-coder:latest   # ~20 Go à télécharger
+docker pull ghcr.io/tatanecode/debian-qwen3-coder:latest   # ~20 Go à télécharger
 
-podman run -d \
+docker run -d \
   --name qwen3-coder \
   -p 11435:11434 \
   ghcr.io/tatanecode/debian-qwen3-coder:latest
 ```
 
-(fonctionne identiquement avec `docker`)
+(fonctionne identiquement avec `podman`)
 
 Le port hôte **11435** permet de faire cohabiter ce serveur avec
 `debian-qwen25-coder` (port hôte 11434) en même temps.
@@ -61,7 +61,7 @@ Le port hôte **11435** permet de faire cohabiter ce serveur avec
 Ou via le compose du dépôt (mapping `11435:11434`) :
 
 ```bash
-podman-compose up -d debian-qwen3-coder
+docker compose up -d debian-qwen3-coder
 ```
 
 Vérifier que le modèle est déjà présent (réponse immédiate, aucun téléchargement) :
@@ -142,7 +142,7 @@ Dans `~/.config/opencode/opencode.json` :
 ## Paramètres ajustables au run
 
 ```bash
-podman run -d --name qwen3-coder -p 11435:11434 \
+docker run -d --name qwen3-coder -p 11435:11434 \
   -e OLLAMA_CONTEXT_LENGTH=65536 \
   -e OLLAMA_KEEP_ALIVE=1h \
   ghcr.io/tatanecode/debian-qwen3-coder:latest
@@ -174,8 +174,8 @@ podman run -d --name qwen3-coder -p 11435:11434 \
 
 | Problème | Solution |
 |----------|----------|
-| `connection refused` sur 11435 | Le conteneur n'est pas démarré, ou le mapping est `-p 11435:11434` : vérifier `podman ps` |
-| Le modèle n'apparaît pas dans `/api/tags` | Vérifier `podman exec qwen3-coder ollama list` ; le poids doit être dans `/root/.ollama/models` |
+| `connection refused` sur 11435 | Le conteneur n'est pas démarré, ou le mapping est `-p 11435:11434` : vérifier `docker ps` |
+| Le modèle n'apparaît pas dans `/api/tags` | Vérifier `docker exec qwen3-coder ollama list` ; le poids doit être dans `/root/.ollama/models` |
 | `OOM` / conteneur tué au premier appel | Pas assez de RAM hôte : ~20 Go libres requis, régler `.wslconfig` sous Windows/WSL2 |
 | Réponses très lentes | Normal sur CPU pour 19 Go de poids ; baisser le contexte si la RAM manque |
 | `healthcheck` en échec au démarrage | Laisser le `start-period` de 60s (chargement des poids au premier hit) |

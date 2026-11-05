@@ -17,29 +17,31 @@ Images conteneurs AlmaLinux 9 et Debian 12 (Bookworm) pré-construites (x86_64),
 | `ghcr.io/tatanecode/debian-lmstudio` | LM Studio (surcouche de l'image `linuxserver/lm-studio`), modèle Qwen 2.5 3B Instruct (GGUF Q4_K_M) pré-téléchargé, interface web sur le port 3001 (HTTPS) et 3000 (HTTP), serveur API OpenAI-compatible sur le port 1234 via `lms server start` |
 | `ghcr.io/tatanecode/debian-qwen25-coder` | Ollama (image officielle), modèle Qwen 2.5 Coder 7B pré-chargé, API OpenAI-compatible sur le port 11434 |
 | `ghcr.io/tatanecode/debian-qwen3-coder` | Ollama (image officielle), modèle Qwen3 Coder 30B (MoE) pré-chargé, API OpenAI-compatible sur le port 11434 |
+| `ghcr.io/tatanecode/debian-gemma2-abliterated` | Ollama (image officielle), modèle Gemma 2 9B abliterated (uncensored) pré-chargé, API OpenAI-compatible sur le port 11434 |
 
 Documentation détaillée pour l'utilisation de Qwen 2.5 3B (API, CLI, exemples de code) : [`debian-lmstudio/README.md`](debian-lmstudio/README.md).
 
-Documentation détaillée pour Ollama + Qwen Coder (API, exemples, configuration opencode) : [`debian-qwen25-coder/README.md`](debian-qwen25-coder/README.md) et [`debian-qwen3-coder/README.md`](debian-qwen3-coder/README.md).
+Documentation détaillée pour Ollama + Qwen Coder / Gemma abliterated (API, exemples, configuration opencode) : [`debian-qwen25-coder/README.md`](debian-qwen25-coder/README.md), [`debian-qwen3-coder/README.md`](debian-qwen3-coder/README.md) et [`debian-gemma2-abliterated/README.md`](debian-gemma2-abliterated/README.md).
 
 ## Récupérer les images
 
-    podman login ghcr.io
-    podman pull ghcr.io/tatanecode/alma-rust:latest
-    podman pull ghcr.io/tatanecode/alma-dotnet-node:latest
-    podman pull ghcr.io/tatanecode/alma-dotnet:latest
-    podman pull ghcr.io/tatanecode/alma-node:latest
-    podman pull ghcr.io/tatanecode/debian-rust:latest
-    podman pull ghcr.io/tatanecode/debian-dotnet-node:latest
-    podman pull ghcr.io/tatanecode/debian-dotnet:latest
-    podman pull ghcr.io/tatanecode/debian-node:latest
-    podman pull ghcr.io/tatanecode/alma-cpp:latest
-    podman pull ghcr.io/tatanecode/debian-cpp:latest
-    podman pull ghcr.io/tatanecode/debian-lmstudio:latest
-    podman pull ghcr.io/tatanecode/debian-qwen25-coder:latest
-    podman pull ghcr.io/tatanecode/debian-qwen3-coder:latest
+    docker login ghcr.io
+    docker pull ghcr.io/tatanecode/alma-rust:latest
+    docker pull ghcr.io/tatanecode/alma-dotnet-node:latest
+    docker pull ghcr.io/tatanecode/alma-dotnet:latest
+    docker pull ghcr.io/tatanecode/alma-node:latest
+    docker pull ghcr.io/tatanecode/debian-rust:latest
+    docker pull ghcr.io/tatanecode/debian-dotnet-node:latest
+    docker pull ghcr.io/tatanecode/debian-dotnet:latest
+    docker pull ghcr.io/tatanecode/debian-node:latest
+    docker pull ghcr.io/tatanecode/alma-cpp:latest
+    docker pull ghcr.io/tatanecode/debian-cpp:latest
+    docker pull ghcr.io/tatanecode/debian-lmstudio:latest
+    docker pull ghcr.io/tatanecode/debian-qwen25-coder:latest
+    docker pull ghcr.io/tatanecode/debian-qwen3-coder:latest
+    docker pull ghcr.io/tatanecode/debian-gemma2-abliterated:latest
 
-(fonctionne aussi avec `docker`)
+(fonctionne aussi avec `podman`)
 
 ### Téléchargement direct (tar)
 
@@ -49,22 +51,22 @@ depuis la page **Actions** du dépôt (artefacts `alma-rust-image`,
 `debian-rust-image`, `debian-dotnet-node-image`, `debian-dotnet-image`,
 `debian-node-image`,
 `alma-cpp-image`, `debian-cpp-image`, `debian-lmstudio-image`, `debian-qwen25-coder-image`,
-`debian-qwen3-coder-image`, conservés 14 jours) :
+`debian-qwen3-coder-image`, `debian-gemma2-abliterated-image`, conservés 14 jours) :
 
 1. Ouvrir l'onglet **Actions** et sélectionner le dernier run successful
 2. En bas de page, télécharger l'artefact souhaité
 
 Puis charger l'image localement :
 
-    podman load -i alma-rust.tar
-    # ou
     docker load -i alma-rust.tar
+    # ou
+    podman load -i alma-rust.tar
 
 Utile pour les environnements sans accès au registre (réseau isolé, air-gapped).
 
 ## Lancer
 
-    podman run -d --name alma-rust -p 2222:22 ghcr.io/tatanecode/alma-rust:latest
+    docker run -d --name alma-rust -p 2222:22 ghcr.io/tatanecode/alma-rust:latest
     ssh dev@localhost -p 2222    # mot de passe par défaut : changeme
 
 ## Lancer toutes les images (compose)
@@ -95,29 +97,29 @@ Arrêter tout :
 
 ## Reconstruire localement
 
-    podman build -t alma-rust -f alma-rust/Containerfile .
-    podman build -t alma-dotnet-node -f alma-dotnet-node/Containerfile .
-    podman build -t alma-dotnet -f alma-dotnet/Containerfile .
-    podman build -t alma-node -f alma-node/Containerfile .
-    podman build -t debian-rust -f debian-rust/Containerfile .
-    podman build -t debian-dotnet-node -f debian-dotnet-node/Containerfile .
-    podman build -t debian-dotnet -f debian-dotnet/Containerfile .
-    podman build -t debian-node -f debian-node/Containerfile .
-    podman build -t alma-cpp -f alma-cpp/Containerfile .
-    podman build -t debian-cpp -f debian-cpp/Containerfile .
+    docker build -t alma-rust -f alma-rust/Containerfile .
+    docker build -t alma-dotnet-node -f alma-dotnet-node/Containerfile .
+    docker build -t alma-dotnet -f alma-dotnet/Containerfile .
+    docker build -t alma-node -f alma-node/Containerfile .
+    docker build -t debian-rust -f debian-rust/Containerfile .
+    docker build -t debian-dotnet-node -f debian-dotnet-node/Containerfile .
+    docker build -t debian-dotnet -f debian-dotnet/Containerfile .
+    docker build -t debian-node -f debian-node/Containerfile .
+    docker build -t alma-cpp -f alma-cpp/Containerfile .
+    docker build -t debian-cpp -f debian-cpp/Containerfile .
 
 Personnalisation au build : `--build-arg SSH_USER=... --build-arg SSH_PASSWORD=...` (+ `DOTNET_VERSION`, `NODE_MAJOR` pour les images dotnet/node, `YAZI_VERSION` pour toutes les images).
 
 ## Utiliser `su` dans le conteneur
 
 L'utilisateur `dev` (ou `SSH_USER`) est créé avec `/bin/bash` comme shell.
-Pour exécuter une commande en tant que cet utilisateur depuis une session root (par exemple avec `podman exec`) :
+Pour exécuter une commande en tant que cet utilisateur depuis une session root (par exemple avec `docker exec`) :
 
-    podman exec -it alma-dotnet-node su - dev -c "dotnet --version"
+    docker exec -it alma-dotnet-node su - dev -c "dotnet --version"
 
 Pour ouvrir un shell interactif :
 
-    podman exec -it alma-dotnet-node su - dev
+    docker exec -it alma-dotnet-node su - dev
 
 Le `-` (login shell) charge le profil de l'utilisateur (`~/.bash_profile`).
 En SSH, la session utilise déjà directement l'utilisateur configuré.

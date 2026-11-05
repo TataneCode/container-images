@@ -30,20 +30,20 @@ démarrage du conteneur.
 ## Lancer le conteneur
 
 ```bash
-podman pull ghcr.io/tatanecode/debian-qwen25-coder:latest
+docker pull ghcr.io/tatanecode/debian-qwen25-coder:latest
 
-podman run -d \
+docker run -d \
   --name qwen25-coder \
   -p 11434:11434 \
   ghcr.io/tatanecode/debian-qwen25-coder:latest
 ```
 
-(fonctionne identiquement avec `docker`)
+(fonctionne identiquement avec `podman`)
 
 Ou via le compose du dépôt :
 
 ```bash
-podman-compose up -d debian-qwen25-coder
+docker compose up -d debian-qwen25-coder
 ```
 
 Vérifier que le modèle est déjà présent (réponse immédiate, aucun téléchargement) :
@@ -139,7 +139,7 @@ Dans `~/.config/opencode/opencode.json` :
 ## Paramètres ajustables au run
 
 ```bash
-podman run -d --name qwen25-coder -p 11434:11434 \
+docker run -d --name qwen25-coder -p 11434:11434 \
   -e OLLAMA_CONTEXT_LENGTH=65536 \
   -e OLLAMA_KEEP_ALIVE=1h \
   ghcr.io/tatanecode/debian-qwen25-coder:latest
@@ -165,7 +165,7 @@ podman run -d --name qwen25-coder -p 11434:11434 \
 
 | Problème | Solution |
 |----------|----------|
-| `connection refused` sur 11434 | Le conteneur n'est pas démarré, ou le port n'est pas mappé : vérifier `podman ps` et `-p 11434:11434` |
-| Le modèle n'apparaît pas dans `/api/tags` | Vérifier `podman exec qwen25-coder ollama list` ; le poids doit être dans `/root/.ollama/models` |
+| `connection refused` sur 11434 | Le conteneur n'est pas démarré, ou le port n'est pas mappé : vérifier `docker ps` et `-p 11434:11434` |
+| Le modèle n'apparaît pas dans `/api/tags` | Vérifier `docker exec qwen25-coder ollama list` ; le poids doit être dans `/root/.ollama/models` |
 | Réponses lentes | Normal sur CPU pour un 7B ; baisser le contexte si la RAM manque |
-| `healthcheck` en échec au démarrage | Laisser le `start-period` de 30s ; vérifier `podman inspect --format '{{.State.Health.Status}}' qwen25-coder` |
+| `healthcheck` en échec au démarrage | Laisser le `start-period` de 30s ; vérifier `docker inspect --format '{{.State.Health.Status}}' qwen25-coder` |
