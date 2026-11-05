@@ -13,7 +13,7 @@ ENV GOOS=windows \
     CGO_ENABLED=0
 
 RUN go install github.com/isaacphi/mcp-language-server@${MCP_LANGUAGE_SERVER_VERSION} \
- && cp /go/bin/mcp-language-server.exe /tmp/mcp-language-server.exe
+ && cp /go/bin/${GOOS}_${GOARCH}/mcp-language-server.exe /tmp/mcp-language-server.exe
 
 # Stage final : simple porteur de l'artefact. Debian pour la coherence avec le
 # reste du depot (glibc, shell et coreutils standards).
