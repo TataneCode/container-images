@@ -1,0 +1,29 @@
+# syntax=docker/dockerfile:1
+
+# Stage de build : image officielle golang (Debian bookworm), reference du toolchain Go.
+FROM golang:1.24-bookworm AS build
+
+# Version epinglee du serveur MCP -> pont LSP, surchargeable au build :
+# docker build --build-arg MCP_LANGUAGE_SERVER_VERSION=v0.1.1 ...
+ARG MCP_LANGUAGE_SERVER_VERSION=v0.1.1
+
+# Cross-compilation Windows amd64, binaire statique (aucune dependance a l'execution).
+ENV GOOS=windows \
+    GOARCH=amd64 \
+    CGO_ENABLED=0
+
+RUN go install github.com/isaacphi/mcp-language-server@${MCP_LANGUAGE_SERVER_VERSION} \
+ && cp /go/bin/mcp-language-server.exe /tmp/mcp-language-server.exe
+
+# Stage final : simple porteur de l'artefact. Debian pour la coherence avec le
+# reste du depot (glibc, shell et coreutils standards).
+FROM debian:bookworm-slim
+
+COPY --from=build /tmp/mcp-language-server.exe /artifacts/mcp-language-server.exe
+COPY debian-mcp-language-server/entrypoint.sh /usr/local/bin/entrypoint.sh
+
+RUN chmod +x /usr/local/bin/entrypoint.sh \
+ && mkdir -p /out
+
+# Copie l'artefact vers $DEST (defaut : /out) et sort.
+ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]

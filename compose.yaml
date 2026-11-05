@@ -97,5 +97,13 @@ services:
     ports:
       - "11436:11434"
 
+  debian-mcp-language-server:
+    image: ghcr.io/tatanecode/debian-mcp-language-server:latest
+    pull_policy: always
+    container_name: debian-mcp-language-server
+    volumes:
+      - mcp-ls-out:/out
+
 volumes:
   lmstudio-config:
+  mcp-ls-out:
