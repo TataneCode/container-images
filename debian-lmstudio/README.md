@@ -22,9 +22,9 @@ Ce guide décrit comment utiliser le modèle **Qwen 2.5 3B Instruct**
 ## Lancer le conteneur
 
 ```bash
-podman pull ghcr.io/tatanecode/debian-lmstudio:latest
+docker pull ghcr.io/tatanecode/debian-lmstudio:latest
 
-podman run -d \
+docker run -d \
   --name lmstudio \
   --shm-size=1gb \
   -p 3000:3000 \
@@ -34,12 +34,12 @@ podman run -d \
   ghcr.io/tatanecode/debian-lmstudio:latest
 ```
 
-(fonctionne identiquement avec `docker`)
+(fonctionne identiquement avec `podman`)
 
 Ou via le compose du dépôt :
 
 ```bash
-podman-compose up -d debian-lmstudio
+docker compose up -d debian-lmstudio
 ```
 
 > **GPU (optionnel)** : sur un hôte avec GPU AMD/Intel, ajouter
@@ -60,7 +60,7 @@ podman-compose up -d debian-lmstudio
 Ouvrir un shell dans le conteneur puis lancer :
 
 ```bash
-podman exec -it lmstudio bash
+docker exec -it lmstudio bash
 lms server start --port 1234
 ```
 

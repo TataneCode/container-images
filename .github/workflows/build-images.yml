@@ -46,6 +46,8 @@ jobs:
             dockerfile: debian-qwen25-coder/Containerfile
           - image: debian-qwen3-coder
             dockerfile: debian-qwen3-coder/Containerfile
+          - image: debian-gemma2-abliterated
+            dockerfile: debian-gemma2-abliterated/Containerfile
     steps:
       - uses: actions/checkout@v5
       - uses: docker/setup-buildx-action@v4
@@ -125,6 +127,8 @@ jobs:
             dockerfile: debian-qwen25-coder/Containerfile
           - image: debian-qwen3-coder
             dockerfile: debian-qwen3-coder/Containerfile
+          - image: debian-gemma2-abliterated
+            dockerfile: debian-gemma2-abliterated/Containerfile
     steps:
       - uses: actions/checkout@v5
       - uses: docker/setup-buildx-action@v4
