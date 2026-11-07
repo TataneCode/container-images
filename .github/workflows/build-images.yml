@@ -40,6 +40,8 @@ jobs:
             dockerfile: alma-cpp/Containerfile
           - image: debian-cpp
             dockerfile: debian-cpp/Containerfile
+          - image: debian-go
+            dockerfile: debian-go/Containerfile
           - image: debian-lmstudio
             dockerfile: debian-lmstudio/Containerfile
           - image: debian-qwen25-coder
@@ -123,6 +125,8 @@ jobs:
             dockerfile: alma-cpp/Containerfile
           - image: debian-cpp
             dockerfile: debian-cpp/Containerfile
+          - image: debian-go
+            dockerfile: debian-go/Containerfile
           - image: debian-lmstudio
             dockerfile: debian-lmstudio/Containerfile
           - image: debian-qwen25-coder

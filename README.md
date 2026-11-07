@@ -14,6 +14,7 @@ Images conteneurs AlmaLinux 9 et Debian 12 (Bookworm) pré-construites (x86_64),
 | `ghcr.io/tatanecode/debian-node` | Debian 12 (Bookworm), OpenSSH, Node.js 24 LTS uniquement, Neovim (v0.12 officiel) + LazyVim pré-configuré, Git, ripgrep, fd, Yazi |
 | `ghcr.io/tatanecode/alma-cpp` | AlmaLinux 9, OpenSSH, GCC + Clang + clang-format + clang-tidy, CMake, Ninja, GDB, Git, ccache, Neovim (v0.12 officiel) + LazyVim pré-configuré, Git, ripgrep, fd, Yazi |
 | `ghcr.io/tatanecode/debian-cpp` | Debian 12 (Bookworm), OpenSSH, GCC + Clang + clang-format + clang-tidy, CMake, Ninja, GDB, Git, ccache, Neovim (v0.12 officiel) + LazyVim pré-configuré, Git, ripgrep, fd, Yazi |
+| `ghcr.io/tatanecode/debian-go` | Debian 12 (Bookworm), OpenSSH, toolchain Go officielle (version épinglée) + `mcp-tui` (TUI MCP) pré-buildé, Neovim (v0.12 officiel) + LazyVim pré-configuré, Git, ripgrep, fd, Yazi |
 | `ghcr.io/tatanecode/debian-lmstudio` | LM Studio (surcouche de l'image `linuxserver/lm-studio`), modèle Qwen 2.5 3B Instruct (GGUF Q4_K_M) pré-téléchargé, interface web sur le port 3001 (HTTPS) et 3000 (HTTP), serveur API OpenAI-compatible sur le port 1234 via `lms server start` |
 | `ghcr.io/tatanecode/debian-qwen25-coder` | Ollama (image officielle), modèle Qwen 2.5 Coder 7B pré-chargé, API OpenAI-compatible sur le port 11434 |
 | `ghcr.io/tatanecode/debian-qwen3-coder` | Ollama (image officielle), modèle Qwen3 Coder 30B (MoE) pré-chargé, API OpenAI-compatible sur le port 11434 |
@@ -39,6 +40,7 @@ Documentation pour le porteur d'artefact `mcp-language-server.exe` (Windows amd6
     docker pull ghcr.io/tatanecode/debian-node:latest
     docker pull ghcr.io/tatanecode/alma-cpp:latest
     docker pull ghcr.io/tatanecode/debian-cpp:latest
+    docker pull ghcr.io/tatanecode/debian-go:latest
     docker pull ghcr.io/tatanecode/debian-lmstudio:latest
     docker pull ghcr.io/tatanecode/debian-qwen25-coder:latest
     docker pull ghcr.io/tatanecode/debian-qwen3-coder:latest
@@ -54,7 +56,7 @@ depuis la page **Actions** du dépôt (artefacts `alma-rust-image`,
 `alma-dotnet-node-image`, `alma-dotnet-image`, `alma-node-image`,
 `debian-rust-image`, `debian-dotnet-node-image`, `debian-dotnet-image`,
 `debian-node-image`,
-`alma-cpp-image`, `debian-cpp-image`, `debian-lmstudio-image`, `debian-qwen25-coder-image`,
+`alma-cpp-image`, `debian-cpp-image`, `debian-go-image`, `debian-lmstudio-image`, `debian-qwen25-coder-image`,
 `debian-qwen3-coder-image`, `debian-gemma2-abliterated-image`, `debian-mcp-language-server-image`, conservés 14 jours) :
 
 1. Ouvrir l'onglet **Actions** et sélectionner le dernier run successful
@@ -78,7 +80,7 @@ Utile pour les environnements sans accès au registre (réseau isolé, air-gappe
     docker compose pull
     docker compose up -d
 
-Télécharge (version `latest` à chaque fois) et lance les 10 images, avec redirection des ports SSH :
+Télécharge (version `latest` à chaque fois) et lance toutes les images, avec redirection des ports SSH :
 
 | Conteneur | Port SSH |
 |---|---|
@@ -92,6 +94,7 @@ Télécharge (version `latest` à chaque fois) et lance les 10 images, avec redi
 | debian-dotnet | 2230 |
 | debian-node | 2231 |
 | debian-cpp | 2227 |
+| debian-go | 2232 |
 
     ssh dev@localhost -p 2222   # mot de passe par défaut : changeme
 
@@ -111,8 +114,9 @@ Arrêter tout :
     docker build -t debian-node -f debian-node/Containerfile .
     docker build -t alma-cpp -f alma-cpp/Containerfile .
     docker build -t debian-cpp -f debian-cpp/Containerfile .
+    docker build -t debian-go -f debian-go/Containerfile .
 
-Personnalisation au build : `--build-arg SSH_USER=... --build-arg SSH_PASSWORD=...` (+ `DOTNET_VERSION`, `NODE_MAJOR` pour les images dotnet/node, `YAZI_VERSION` pour toutes les images).
+Personnalisation au build : `--build-arg SSH_USER=... --build-arg SSH_PASSWORD=...` (+ `DOTNET_VERSION`, `NODE_MAJOR` pour les images dotnet/node, `GO_VERSION` et `MCP_TUI_VERSION` pour `debian-go`, `YAZI_VERSION` pour toutes les images).
 
 ## Utiliser `su` dans le conteneur
 
@@ -149,6 +153,29 @@ Exemple :
 
     g++ -std=c++20 hello.cpp -o hello
     cmake -B build -G Ninja && cmake --build build
+
+### Go (image `debian-go`)
+
+Toolchain Go officielle (tarball `go.dev/dl`, version épinglée au build via
+`--build-arg GO_VERSION=...`) : `go` et `gofmt` dans le PATH, `gcc`/`make`
+présents pour cgo.
+
+`mcp-tui` ([standardbeagle/mcp-tui](https://github.com/standardbeagle/mcp-tui),
+TUI MCP écrit en Go, version épinglée via `--build-arg MCP_TUI_VERSION=...`) est
+**pré-buildé** dans `/home/dev/go/bin` : parcourir les outils d'un serveur MCP,
+remplir un formulaire généré depuis le JSON Schema de l'outil, exécuter et voir
+l'output — avec l'appel CLI équivalent réutilisable en CI. Il gère aussi les
+callbacks serveur (sampling, elicitation).
+
+Exemples (depuis la session SSH `dev`) :
+
+    mcp-tui --cmd uvx --args mcp-server-fetch              # TUI sur un serveur stdio
+    mcp-tui --url http://localhost:8080/mcp                # TUI sur un serveur HTTP
+    mcp-tui --url http://localhost:8080/mcp tool list      # mode CLI : lister les outils
+    mcp-tui --url http://localhost:8080/mcp tool call search_tickets status=open
+
+À combiner avec `mcp-language-server` (pont MCP → LSP, voir
+`debian-mcp-language-server`) pour la navigation sémantique dans une codebase.
 
 ### Yazi (file manager console)
 
