@@ -82,6 +82,18 @@ services:
     volumes:
       - lmstudio-config:/config
 
+  debian-lmstudio-twil:
+    image: ghcr.io/tatanecode/debian-lmstudio-twil:latest
+    pull_policy: always
+    container_name: debian-lmstudio-twil
+    shm_size: "1gb"
+    ports:
+      - "3002:3000"
+      - "3003:3001"
+      - "1235:1234"
+    volumes:
+      - twil-lmstudio-config:/config
+
   debian-qwen25-coder:
     image: ghcr.io/tatanecode/debian-qwen25-coder:latest
     pull_policy: always
@@ -112,4 +124,5 @@ services:
 
 volumes:
   lmstudio-config:
+  twil-lmstudio-config:
   mcp-ls-out:

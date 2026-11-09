@@ -44,6 +44,8 @@ jobs:
             dockerfile: debian-go/Containerfile
           - image: debian-lmstudio
             dockerfile: debian-lmstudio/Containerfile
+          - image: debian-lmstudio-twil
+            dockerfile: debian-lmstudio-twil/Containerfile
           - image: debian-qwen25-coder
             dockerfile: debian-qwen25-coder/Containerfile
           - image: debian-qwen3-coder
@@ -129,6 +131,8 @@ jobs:
             dockerfile: debian-go/Containerfile
           - image: debian-lmstudio
             dockerfile: debian-lmstudio/Containerfile
+          - image: debian-lmstudio-twil
+            dockerfile: debian-lmstudio-twil/Containerfile
           - image: debian-qwen25-coder
             dockerfile: debian-qwen25-coder/Containerfile
           - image: debian-qwen3-coder

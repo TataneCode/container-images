@@ -1,0 +1,16 @@
+FROM lscr.io/linuxserver/lm-studio:latest
+
+ARG MODEL_PUBLISHER=webAI-Official
+ARG MODEL_REPO=TwIL-8B
+ARG MODEL_FILE=TwIL-8B-Q4_K_M-balanced.gguf
+
+USER root
+
+RUN mkdir -p /config/.cache/lm-studio/models/${MODEL_PUBLISHER}/${MODEL_REPO} && \
+    curl -fsSL -o /config/.cache/lm-studio/models/${MODEL_PUBLISHER}/${MODEL_REPO}/${MODEL_FILE} \
+    https://huggingface.co/${MODEL_PUBLISHER}/${MODEL_REPO}/resolve/main/${MODEL_FILE} && \
+    chown -R abc:abc /config/.cache
+
+USER abc
+
+EXPOSE 3000 3001 1234

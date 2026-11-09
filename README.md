@@ -16,12 +16,15 @@ Images conteneurs AlmaLinux 9 et Debian 12 (Bookworm) pré-construites (x86_64),
 | `ghcr.io/tatanecode/debian-cpp` | Debian 12 (Bookworm), OpenSSH, GCC + Clang + clang-format + clang-tidy, CMake, Ninja, GDB, Git, ccache, Neovim (v0.12 officiel) + LazyVim pré-configuré, Git, ripgrep, fd, Yazi |
 | `ghcr.io/tatanecode/debian-go` | Debian 12 (Bookworm), OpenSSH, toolchain Go officielle (version épinglée) + `mcp-tui` (TUI MCP) pré-buildé, Neovim (v0.12 officiel) + LazyVim pré-configuré, Git, ripgrep, fd, Yazi |
 | `ghcr.io/tatanecode/debian-lmstudio` | LM Studio (surcouche de l'image `linuxserver/lm-studio`), modèle Qwen 2.5 3B Instruct (GGUF Q4_K_M) pré-téléchargé, interface web sur le port 3001 (HTTPS) et 3000 (HTTP), serveur API OpenAI-compatible sur le port 1234 via `lms server start` |
+| `ghcr.io/tatanecode/debian-lmstudio-twil` | LM Studio (surcouche de l'image `linuxserver/lm-studio`), modèle TwIL 8B (GGUF Q4_K_M balanced, webAI-Official) pré-téléchargé, interface web sur les ports 3001 (HTTPS) et 3000 (HTTP), serveur API OpenAI-compatible sur le port 1234 via `lms server start` |
 | `ghcr.io/tatanecode/debian-qwen25-coder` | Ollama (image officielle), modèle Qwen 2.5 Coder 7B pré-chargé, API OpenAI-compatible sur le port 11434 |
 | `ghcr.io/tatanecode/debian-qwen3-coder` | Ollama (image officielle), modèle Qwen3 Coder 30B (MoE) pré-chargé, API OpenAI-compatible sur le port 11434 |
 | `ghcr.io/tatanecode/debian-gemma2-abliterated` | Ollama (image officielle), modèle Gemma 2 9B abliterated (uncensored) pré-chargé, API OpenAI-compatible sur le port 11434 |
 | `ghcr.io/tatanecode/debian-mcp-language-server` | Debian 12 slim, porteur d'artefact : binaire Windows amd64 de `mcp-language-server` v0.1.1 (épinglé) copié vers `$DEST` (/out) au lancement, aucun port exposé |
 
 Documentation détaillée pour l'utilisation de Qwen 2.5 3B (API, CLI, exemples de code) : [`debian-lmstudio/README.md`](debian-lmstudio/README.md).
+
+Documentation détaillée pour TwIL 8B (interface web, API, configuration opencode) : [`debian-lmstudio-twil/README.md`](debian-lmstudio-twil/README.md).
 
 Documentation détaillée pour Ollama + Qwen Coder / Gemma abliterated (API, exemples, configuration opencode) : [`debian-qwen25-coder/README.md`](debian-qwen25-coder/README.md), [`debian-qwen3-coder/README.md`](debian-qwen3-coder/README.md) et [`debian-gemma2-abliterated/README.md`](debian-gemma2-abliterated/README.md).
 
@@ -42,6 +45,7 @@ Documentation pour le porteur d'artefact `mcp-language-server.exe` (Windows amd6
     docker pull ghcr.io/tatanecode/debian-cpp:latest
     docker pull ghcr.io/tatanecode/debian-go:latest
     docker pull ghcr.io/tatanecode/debian-lmstudio:latest
+    docker pull ghcr.io/tatanecode/debian-lmstudio-twil:latest
     docker pull ghcr.io/tatanecode/debian-qwen25-coder:latest
     docker pull ghcr.io/tatanecode/debian-qwen3-coder:latest
     docker pull ghcr.io/tatanecode/debian-gemma2-abliterated:latest
@@ -56,7 +60,7 @@ depuis la page **Actions** du dépôt (artefacts `alma-rust-image`,
 `alma-dotnet-node-image`, `alma-dotnet-image`, `alma-node-image`,
 `debian-rust-image`, `debian-dotnet-node-image`, `debian-dotnet-image`,
 `debian-node-image`,
-`alma-cpp-image`, `debian-cpp-image`, `debian-go-image`, `debian-lmstudio-image`, `debian-qwen25-coder-image`,
+`alma-cpp-image`, `debian-cpp-image`, `debian-go-image`, `debian-lmstudio-image`, `debian-lmstudio-twil-image`, `debian-qwen25-coder-image`,
 `debian-qwen3-coder-image`, `debian-gemma2-abliterated-image`, `debian-mcp-language-server-image`, conservés 14 jours) :
 
 1. Ouvrir l'onglet **Actions** et sélectionner le dernier run successful
