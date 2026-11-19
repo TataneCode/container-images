@@ -14,7 +14,7 @@ RUN pip download --only-binary=:all: --platform win_amd64 --python-version 3.13 
     python -m zipfile -e /tmp/uv.zip /tmp/uv && \
     mkdir -p /kit/wheels && \
     cp /wheels/*.whl /kit/wheels/ && \
-    cp /tmp/uv/uv-x86_64-pc-windows-msvc/uv.exe /kit/uv.exe && \
+    cp "$(find /tmp/uv -name uv.exe | head -1)" /kit/uv.exe && \
     sed "s/__GRAPHIFY_VERSION__/${GRAPHIFY_VERSION}/g" debian-graphify/install-graphify-windows.ps1 > /kit/install.ps1 && \
     cd /kit && python -m zipfile -c /graphify-windows-kit.zip uv.exe install.ps1 wheels
 
