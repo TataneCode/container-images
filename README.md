@@ -21,6 +21,7 @@ Images conteneurs AlmaLinux 9 et Debian 12 (Bookworm) pré-construites (x86_64),
 | `ghcr.io/tatanecode/debian-qwen3-coder` | Ollama (image officielle), modèle Qwen3 Coder 30B (MoE) pré-chargé, API OpenAI-compatible sur le port 11434 |
 | `ghcr.io/tatanecode/debian-gemma2-abliterated` | Ollama (image officielle), modèle Gemma 2 9B abliterated (uncensored) pré-chargé, API OpenAI-compatible sur le port 11434 |
 | `ghcr.io/tatanecode/debian-mcp-language-server` | Debian 12 slim, porteur d'artefact : binaire Windows amd64 de `mcp-language-server` v0.1.1 (épinglé) copié vers `$DEST` (/out) au lancement, aucun port exposé |
+| `ghcr.io/tatanecode/debian-graphify` | Debian 12 + Python 3.13 (`python:3.13-bookworm`), `uv` + `graphifyy[mcp]` 0.9.112 pré-installé (CLI + serveur MCP stdio/HTTP sur le port 8080), kit d'installation Windows offline embarqué (`/artifacts/graphify-windows-kit.zip` : `uv.exe` + wheels win_amd64 + `install.ps1`) |
 
 Documentation détaillée pour l'utilisation de Qwen 2.5 3B (API, CLI, exemples de code) : [`debian-lmstudio/README.md`](debian-lmstudio/README.md).
 
@@ -29,6 +30,8 @@ Documentation détaillée pour TwIL 8B (interface web, API, configuration openco
 Documentation détaillée pour Ollama + Qwen Coder / Gemma abliterated (API, exemples, configuration opencode) : [`debian-qwen25-coder/README.md`](debian-qwen25-coder/README.md), [`debian-qwen3-coder/README.md`](debian-qwen3-coder/README.md) et [`debian-gemma2-abliterated/README.md`](debian-gemma2-abliterated/README.md).
 
 Documentation pour le porteur d'artefact `mcp-language-server.exe` (Windows amd64) : [`debian-mcp-language-server/README.md`](debian-mcp-language-server/README.md).
+
+Documentation pour graphify (hôte CLI/MCP, kit Windows offline, config Gemini CLI) : [`debian-graphify/README.md`](debian-graphify/README.md).
 
 ## Récupérer les images
 
@@ -50,6 +53,7 @@ Documentation pour le porteur d'artefact `mcp-language-server.exe` (Windows amd6
     docker pull ghcr.io/tatanecode/debian-qwen3-coder:latest
     docker pull ghcr.io/tatanecode/debian-gemma2-abliterated:latest
     docker pull ghcr.io/tatanecode/debian-mcp-language-server:latest
+    docker pull ghcr.io/tatanecode/debian-graphify:latest
 
 (fonctionne aussi avec `podman`)
 
@@ -61,7 +65,8 @@ depuis la page **Actions** du dépôt (artefacts `alma-rust-image`,
 `debian-rust-image`, `debian-dotnet-node-image`, `debian-dotnet-image`,
 `debian-node-image`,
 `alma-cpp-image`, `debian-cpp-image`, `debian-go-image`, `debian-lmstudio-image`, `debian-lmstudio-twil-image`, `debian-qwen25-coder-image`,
-`debian-qwen3-coder-image`, `debian-gemma2-abliterated-image`, `debian-mcp-language-server-image`, conservés 14 jours) :
+`debian-qwen3-coder-image`, `debian-gemma2-abliterated-image`, `debian-mcp-language-server-image`,
+`debian-graphify-image`, conservés 14 jours) :
 
 1. Ouvrir l'onglet **Actions** et sélectionner le dernier run successful
 2. En bas de page, télécharger l'artefact souhaité

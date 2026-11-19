@@ -122,7 +122,18 @@ services:
     volumes:
       - mcp-ls-out:/out
 
+  debian-graphify:
+    image: ghcr.io/tatanecode/debian-graphify:latest
+    pull_policy: always
+    container_name: debian-graphify
+    ports:
+      - "8080:8080"
+    volumes:
+      - graphify-data:/data
+    command: ["python", "-m", "graphify.serve", "/data/graph.json", "--transport", "http", "--host", "0.0.0.0", "--port", "8080"]
+
 volumes:
   lmstudio-config:
   twil-lmstudio-config:
   mcp-ls-out:
+  graphify-data:

@@ -1,0 +1,41 @@
+# syntax=docker/dockerfile:1
+
+ARG GRAPHIFY_VERSION=0.9.112
+ARG UV_VERSION=0.13.9
+
+# Stage 1 : kit Windows offline = uv.exe (win amd64) + wheels win_amd64 de graphifyy[mcp]
+FROM python:3.13-bookworm AS winkit
+ARG GRAPHIFY_VERSION
+ARG UV_VERSION
+RUN pip download --only-binary=:all: --platform win_amd64 --python-version 3.13 \
+      -d /wheels "graphifyy[mcp]==${GRAPHIFY_VERSION}" && \
+    curl -fsSL -o /tmp/uv.zip \
+      "https://github.com/astral-sh/uv/releases/download/${UV_VERSION}/uv-x86_64-pc-windows-msvc.zip" && \
+    python -m zipfile -e /tmp/uv.zip /tmp/uv && \
+    mkdir -p /kit/wheels && \
+    cp /wheels/*.whl /kit/wheels/ && \
+    cp /tmp/uv/uv-x86_64-pc-windows-msvc/uv.exe /kit/uv.exe && \
+    sed "s/__GRAPHIFY_VERSION__/${GRAPHIFY_VERSION}/g" debian-graphify/install-graphify-windows.ps1 > /kit/install.ps1 && \
+    cd /kit && python -m zipfile -c /graphify-windows-kit.zip uv.exe install.ps1 wheels
+
+# Stage final : hote graphify (CLI + serveur MCP) sur Debian bookworm, Python 3.13 officiel
+FROM python:3.13-bookworm
+ARG GRAPHIFY_VERSION
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends git curl ca-certificates && \
+    apt-get clean && rm -rf /var/lib/apt/lists/* && \
+    pip install --no-cache-dir uv "graphifyy[mcp]==${GRAPHIFY_VERSION}"
+
+COPY --from=winkit /graphify-windows-kit.zip /artifacts/graphify-windows-kit.zip
+
+RUN mkdir -p /data
+
+EXPOSE 8080
+
+# Pas d'ENTRYPOINT : la commande se surcharge selon l'usage (voir README.md) :
+#   CLI        : docker run --rm -v "$PWD:/work" -w /work <image> graphify .
+#   MCP stdio  : docker run --rm -i -v "$PWD:/work" -w /work <image> graphify /work --mcp
+#   MCP HTTP   : docker run -d -p 8080:8080 -v "$PWD:/work" -w /work <image> \
+#                  python -m graphify.serve /work/graphify-out/graph.json --transport http --host 0.0.0.0 --port 8080
+#   Kit Windows: docker run --rm -v "$PWD:/out" --entrypoint cp <image> /artifacts/graphify-windows-kit.zip /out/
+CMD ["graphify", "--version"]
