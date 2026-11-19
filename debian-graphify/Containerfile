@@ -7,6 +7,7 @@ ARG UV_VERSION=0.13.9
 FROM python:3.13-bookworm AS winkit
 ARG GRAPHIFY_VERSION
 ARG UV_VERSION
+COPY debian-graphify/install-graphify-windows.ps1 /tmp/install-graphify-windows.ps1
 RUN pip download --only-binary=:all: --platform win_amd64 --python-version 3.13 \
       -d /wheels "graphifyy[mcp]==${GRAPHIFY_VERSION}" && \
     curl -fsSL -o /tmp/uv.zip \
@@ -15,7 +16,7 @@ RUN pip download --only-binary=:all: --platform win_amd64 --python-version 3.13 
     mkdir -p /kit/wheels && \
     cp /wheels/*.whl /kit/wheels/ && \
     cp "$(find /tmp/uv -name uv.exe | head -1)" /kit/uv.exe && \
-    sed "s/__GRAPHIFY_VERSION__/${GRAPHIFY_VERSION}/g" debian-graphify/install-graphify-windows.ps1 > /kit/install.ps1 && \
+    sed "s/__GRAPHIFY_VERSION__/${GRAPHIFY_VERSION}/g" /tmp/install-graphify-windows.ps1 > /kit/install.ps1 && \
     cd /kit && python -m zipfile -c /graphify-windows-kit.zip uv.exe install.ps1 wheels
 
 # Stage final : hote graphify (CLI + serveur MCP) sur Debian bookworm, Python 3.13 officiel
