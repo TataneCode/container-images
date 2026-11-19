@@ -54,6 +54,8 @@ jobs:
             dockerfile: debian-gemma2-abliterated/Containerfile
           - image: debian-mcp-language-server
             dockerfile: debian-mcp-language-server/Containerfile
+          - image: debian-graphify
+            dockerfile: debian-graphify/Containerfile
     steps:
       - uses: actions/checkout@v5
       - uses: docker/setup-buildx-action@v4
@@ -141,6 +143,8 @@ jobs:
             dockerfile: debian-gemma2-abliterated/Containerfile
           - image: debian-mcp-language-server
             dockerfile: debian-mcp-language-server/Containerfile
+          - image: debian-graphify
+            dockerfile: debian-graphify/Containerfile
     steps:
       - uses: actions/checkout@v5
       - uses: docker/setup-buildx-action@v4
